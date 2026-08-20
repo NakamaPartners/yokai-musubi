@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Yokai Musubi"
+description = "A vibrant one-page landing site for Yokai Musubi, a Japanese onigiri shop. It brings the shop's playful yokai folklore and fresh handmade onigiri to life while guiding visitors to its online ordering menu."
+version = "1.0.0"
+id = "artifacts/yokai-musubi"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20218
+
+[services.development]
+run = "pnpm --filter @workspace/yokai-musubi run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/yokai-musubi", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/yokai-musubi/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20218"
+BASE_PATH = "/"
