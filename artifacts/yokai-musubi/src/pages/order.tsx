@@ -304,9 +304,9 @@ export default function OrderPage() {
                               <span className="shrink-0 font-display text-sm font-bold text-primary">{formatPrice(item.priceCents)}</span>
                             </div>
                             <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{item.description}</p>
-                            <div className="mt-auto flex items-end justify-between gap-2 pt-3">
-                              <span className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{item.availability}</span>
-                              <button type="button" onClick={() => addItem(item)} className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-foreground px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-background transition-colors hover:bg-primary">
+                            <div className="mt-auto grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2 pt-3">
+                              <span className="min-w-0 text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{item.availability}</span>
+                              <button type="button" onClick={() => addItem(item)} className="inline-flex h-8 w-[4.5rem] shrink-0 items-center justify-center gap-1.5 whitespace-nowrap bg-foreground px-2 text-[10px] font-bold uppercase tracking-[0.12em] text-background transition-colors hover:bg-primary">
                                 Add <Plus className="h-3.5 w-3.5" />
                               </button>
                             </div>
