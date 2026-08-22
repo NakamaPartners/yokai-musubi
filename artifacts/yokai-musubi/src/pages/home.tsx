@@ -13,7 +13,7 @@ const ASSETS = {
   karasu2: '/assets/Friday_+_Saturday_special_is_Karasu_Tengu_Onigiri.Kimchi_rice_1787218070990.webp',
 };
 
-const ORDER_URL = 'https://www.orderyokaimusubi.com/order';
+const ORDER_URL = '/order';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -83,7 +83,7 @@ function Navbar() {
             <a href="#about" className="nav-link">Our story</a>
             <a href="#menu" className="nav-link">The counter</a>
             <a href="#visit" className="nav-link">Find us</a>
-            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="button button-dark px-5 py-3 text-[11px]">
+            <a href={ORDER_URL} className="button button-dark px-5 py-3 text-[11px]">
               Order online <ArrowRight className="h-4 w-4" />
             </a>
           </div>
@@ -116,7 +116,7 @@ function Navbar() {
             </div>
             <div className="mt-auto border-t border-border pt-6">
               <p className="font-japanese text-sm tracking-[0.2em] text-muted-foreground">おむすびを、どうぞ</p>
-              <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="button button-primary mt-5 w-full justify-center py-4 text-sm">
+              <a href={ORDER_URL} className="button button-primary mt-5 w-full justify-center py-4 text-sm">
                 Order online <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -148,7 +148,7 @@ function HeroSection() {
             Specialty musubi, scratch-made butter mochi, and made-to-order taiyaki watched over by a mischievous Tengu. Food made to take somewhere.
           </motion.p>
           <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.42 }} className="mt-9 flex flex-wrap items-center gap-3">
-            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="button button-primary px-6 py-4 text-xs sm:px-7">
+            <a href={ORDER_URL} className="button button-primary px-6 py-4 text-xs sm:px-7">
               Order online <ArrowRight className="h-4 w-4" />
             </a>
             <a href="#about" className="button button-outline px-6 py-4 text-xs sm:px-7">
@@ -241,7 +241,7 @@ function FavoritesGallery() {
           </motion.div>
           <motion.div {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.1 }} className="max-w-[280px] md:pb-1">
             <p className="mb-4 text-sm leading-relaxed text-muted-foreground">Triangular, portable, and made with a little more care than your average lunch.</p>
-            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary transition-[gap] hover:gap-4">
+            <a href={ORDER_URL} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary transition-[gap] hover:gap-4">
               View full menu <ArrowRight className="h-4 w-4" />
             </a>
           </motion.div>
@@ -310,7 +310,7 @@ function SpecialsSection() {
           </div>
           <h2 className="max-w-[740px] font-display text-[clamp(3rem,6.4vw,7rem)] font-extrabold leading-[0.9] tracking-[-0.06em]">FRIDAY &<br /><span className="font-serif font-normal italic">SATURDAY</span><br />SPECIALS.</h2>
           <p className="mt-8 max-w-[650px] text-[17px] leading-[1.7] text-primary-foreground/85 sm:text-xl">Every weekend, the Tengu brings something new. From the spicy <strong>Karasu Tengu</strong> (kimchi rice with miso tuna mayo) to the refreshing <strong>Kappa</strong> (Japanese pickle and cucumber).</p>
-          <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="button button-light mt-9 px-6 py-4 text-xs sm:px-7">
+          <a href={ORDER_URL} className="button button-light mt-9 px-6 py-4 text-xs sm:px-7">
             Check this week's menu <ArrowRight className="h-4 w-4" />
           </a>
         </motion.div>
@@ -343,7 +343,7 @@ function VisitSection() {
                   <p className="mb-4 font-japanese text-sm tracking-[0.2em] text-primary">できたて</p>
                   <h3 className="font-display text-3xl font-bold tracking-[-0.03em]">Made to order.</h3>
                   <p className="mt-4 max-w-[420px] text-[15px] leading-[1.75] text-muted-foreground">Whether it&apos;s a quick lunch, a picnic spread, or warm taiyaki for the road, we make it fresh. Pre-order online to skip the line.</p>
-                  <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="button button-primary mt-7 w-full justify-center py-4 text-xs">Order ahead</a>
+                   <a href={ORDER_URL} className="button button-primary mt-7 w-full justify-center py-4 text-xs">Order ahead</a>
                 </div>
               </div>
             </motion.div>
@@ -377,7 +377,7 @@ function Footer() {
           </a>
           <div className="flex items-center gap-5">
             <a href="https://www.instagram.com/yokaimusubi/" target="_blank" rel="noopener noreferrer" aria-label="Yokai Musubi on Instagram" className="flex h-11 w-11 items-center justify-center border border-background/30 transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"><Instagram className="h-4 w-4" /></a>
-            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-[0.16em] transition-colors hover:text-primary">Order online <ArrowRight className="ml-1 inline h-3.5 w-3.5" /></a>
+            <a href={ORDER_URL} className="text-xs font-bold uppercase tracking-[0.16em] transition-colors hover:text-primary">Order online <ArrowRight className="ml-1 inline h-3.5 w-3.5" /></a>
           </div>
         </div>
         <div className="relative flex justify-center border-t border-background/20 pt-7 text-center text-xs text-background/55">
