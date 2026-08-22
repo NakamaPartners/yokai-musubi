@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useSearch } from "wouter";
 import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Clock3, Minus, Plus, ShoppingBag, Trash2, Truck } from "lucide-react";
@@ -34,11 +34,20 @@ function OrderHeader({ cartCount }: { cartCount: number }) {
 export default function OrderPage() {
   const cart = useCart();
   const [selected, setSelected] = useState<MenuItem | null>(null);
+  const [menuBottomVisible, setMenuBottomVisible] = useState(false);
+  const menuBottomRef = useRef<HTMLDivElement>(null);
   const menu = useGetMenu();
+  useEffect(() => {
+    const target = menuBottomRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(([entry]) => setMenuBottomVisible(entry.isIntersecting), { rootMargin: "0px 0px 80px 0px" });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [menu.data]);
   if (menu.isLoading) return <OrderLoading />;
   if (menu.isError || !menu.data) return <OrderUnavailable message="We couldn’t load today’s counter. Please try again, or call (503) 915-7499." />;
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="order-page min-h-screen bg-background text-foreground">
       <OrderHeader cartCount={cart.count} />
       <main className="mx-auto max-w-[1280px] px-5 pb-20 pt-10 sm:px-8 sm:pt-14">
         <div className="order-hero">
@@ -49,19 +58,42 @@ export default function OrderPage() {
           </div>
         </div>
         {menu.data.draft && <div className="draft-callout mt-8" data-testid="status-draft-menu"><AlertCircle className="h-5 w-5 shrink-0" /><p><strong>Menu preview:</strong> item names, availability, prices, delivery rules, and hours are draft configuration until the shop confirms them. Your cart is never submitted while online ordering is off.</p></div>}
-        <div className="mt-12 space-y-14">
-          {menu.data.categories.map((category) => {
-            const items = menu.data!.items.filter((item) => item.categoryId === category.id);
-            return items.length ? <section key={category.id} aria-labelledby={`category-${category.id}`}>
-              <div className="mb-6 flex items-end justify-between border-b border-border pb-4"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">The counter</p><h2 id={`category-${category.id}`} className="mt-1 font-display text-3xl font-bold">{category.name}</h2></div><p className="hidden max-w-sm text-right text-sm text-muted-foreground sm:block">{category.description}</p></div>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((item) => <MenuCard key={item.id} item={item} onCustomize={() => setSelected(item)} />)}</div>
-            </section> : null;
-          })}
+        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="min-w-0 space-y-14">
+            {menu.data.categories.map((category) => {
+              const items = menu.data!.items.filter((item) => item.categoryId === category.id);
+              return items.length ? <section key={category.id} aria-labelledby={`category-${category.id}`}>
+                <div className="mb-6 flex items-end justify-between border-b border-border pb-4"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">The counter</p><h2 id={`category-${category.id}`} className="mt-1 font-display text-3xl font-bold">{category.name}</h2></div><p className="hidden max-w-sm text-right text-sm text-muted-foreground sm:block">{category.description}</p></div>
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">{items.map((item) => <MenuCard key={item.id} item={item} onCustomize={() => setSelected(item)} />)}</div>
+              </section> : null;
+            })}
+            <div ref={menuBottomRef} className="h-px" aria-hidden="true" />
+          </div>
+          <CartPanel cart={cart} />
         </div>
       </main>
+      <FloatingCart cart={cart} hidden={menuBottomVisible} />
       {selected && <ItemSheet item={selected} onClose={() => setSelected(null)} onAdd={(selections) => { cart.add(selected, selections); setSelected(null); }} />}
     </div>
   );
+}
+
+type CartState = ReturnType<typeof useCart>;
+
+function CartPanel({ cart }: { cart: CartState }) {
+  return <aside className="order-summary" data-testid="cart-sidebar">
+    <div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">Your order</p><h2 className="mt-1 font-display text-2xl font-bold">Ready when you are.</h2></div><ShoppingBag className="h-5 w-5 text-primary" /></div>
+    {cart.items.length ? <><div className="mt-6 divide-y divide-border">{cart.items.map((item) => <CartLine key={item.key} item={item} cart={cart} />)}</div><div className="mt-5 border-t border-foreground pt-5"><div className="flex justify-between text-sm"><span>Subtotal</span><strong>{money(cart.subtotalCents)}</strong></div><Link href="/order/checkout" className="button button-primary mt-5 w-full justify-center" data-testid="button-review-order">Review order <ArrowRight className="h-4 w-4" /></Link></div></> : <div className="mt-10 border-t border-border pt-10 text-center"><ShoppingBag className="mx-auto h-9 w-9 text-muted-foreground" /><p className="mt-4 font-display text-xl font-bold">Your order is waiting.</p><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Choose something from the counter and it will appear here.</p></div>}
+  </aside>;
+}
+
+function CartLine({ item, cart }: { item: CartState["items"][number]; cart: CartState }) {
+  return <div className="py-4 first:pt-0"><div className="flex items-start justify-between gap-3"><div><strong className="font-display">{item.name}</strong>{item.modifiers.map((modifier) => <p key={modifier.optionId} className="mt-1 text-xs text-muted-foreground">{modifier.optionName}</p>)}</div><strong className="whitespace-nowrap text-sm">{money(item.unitPriceCents * item.quantity)}</strong></div><div className="mt-3 flex items-center justify-between"><div className="quantity-control"><button type="button" onClick={() => cart.updateQuantity(item.key, item.quantity - 1)} aria-label={`Decrease ${item.name}`} data-testid={`button-decrease-${item.itemId}`}><Minus /></button><span>{item.quantity}</span><button type="button" onClick={() => cart.updateQuantity(item.key, item.quantity + 1)} aria-label={`Increase ${item.name}`} data-testid={`button-increase-${item.itemId}`}><Plus /></button></div><button type="button" className="text-xs font-bold uppercase tracking-widest text-primary" onClick={() => cart.remove(item.key)} data-testid={`button-remove-${item.itemId}`}><Trash2 className="mr-1 inline h-3.5 w-3.5" />Remove</button></div></div>;
+}
+
+function FloatingCart({ cart, hidden }: { cart: CartState; hidden: boolean }) {
+  if (!cart.items.length || hidden) return null;
+  return <div className="floating-cart" data-testid="floating-cart"><div className="flex min-w-0 items-center gap-3"><span className="floating-cart-icon"><ShoppingBag className="h-4 w-4" /></span><div className="min-w-0"><p className="truncate text-sm font-bold">{cart.count} {cart.count === 1 ? "item" : "items"} selected</p><p className="text-xs text-muted-foreground">{money(cart.subtotalCents)} subtotal</p></div></div><Link href="/order/checkout" className="button button-primary shrink-0 px-4 py-3 text-xs" data-testid="button-floating-cart">View order <ArrowRight className="h-4 w-4" /></Link></div>;
 }
 
 function MenuCard({ item, onCustomize }: { item: MenuItem; onCustomize: () => void }) {
