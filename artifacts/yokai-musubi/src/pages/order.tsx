@@ -306,7 +306,7 @@ export default function OrderPage() {
                             <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{item.description}</p>
                             <div className="mt-auto flex items-end justify-between gap-2 pt-3">
                               <span className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">{item.availability}</span>
-                              <button type="button" onClick={() => addItem(item)} className="inline-flex min-w-0 items-center gap-1.5 bg-foreground px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-background transition-colors hover:bg-primary">
+                              <button type="button" onClick={() => addItem(item)} className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap bg-foreground px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] text-background transition-colors hover:bg-primary">
                                 Add <Plus className="h-3.5 w-3.5" />
                               </button>
                             </div>
