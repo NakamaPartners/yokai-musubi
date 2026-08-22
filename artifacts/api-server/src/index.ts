@@ -1,6 +1,6 @@
-import app from "./app";
-import { logger } from "./lib/logger";
-import { ensureOrderingSchema } from "./lib/ordering";
+import app from "./app.js";
+import { logger } from "./lib/logger.js";
+import { ensureOrderingSchema } from "./lib/ordering.js";
 
 const rawPort = process.env["PORT"];
 

@@ -1,6 +1,6 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import cors from "cors";
-import pinoHttp from "pino-http";
+import { pinoHttp } from "pino-http";
 import router from "./routes/index.js";
 import { logger } from "./lib/logger.js";
 import { handleStripeWebhook } from "./routes/ordering.js";
@@ -13,14 +13,14 @@ app.use(
   pinoHttp({
     logger,
     serializers: {
-      req(req) {
+      req(req: any) {
         return {
           id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res) {
+      res(res: any) {
         return {
           statusCode: res.statusCode,
         };
@@ -29,7 +29,7 @@ app.use(
   }),
 );
 app.use(cors());
-app.post("/api/stripe/webhook", express.raw({ type: "application/json", limit: "256kb" }), async (req, res) => {
+app.post("/api/stripe/webhook", express.raw({ type: "application/json", limit: "256kb" }), async (req: Request, res: Response) => {
   try {
     await handleStripeWebhook(req.body.toString("utf8"), req.header("stripe-signature") ?? "");
     res.json({ received: true });

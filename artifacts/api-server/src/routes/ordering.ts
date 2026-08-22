@@ -8,8 +8,8 @@ import {
   normalizeOrderNumber,
   pool,
   type MenuItem,
-} from "../lib/ordering";
-import { createCheckoutSession, stripeConfigured, verifyStripeSignature } from "../lib/stripe";
+} from "../lib/ordering.js";
+import { createCheckoutSession, stripeConfigured, verifyStripeSignature } from "../lib/stripe.js";
 
 const router: IRouter = Router();
 
