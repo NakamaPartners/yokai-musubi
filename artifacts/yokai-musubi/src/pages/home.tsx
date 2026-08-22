@@ -140,9 +140,10 @@ function HeroSection() {
             <span className="h-px w-10 bg-primary/60" />
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-foreground/55">Since 2016</span>
           </motion.div>
-          <motion.h1 {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.18 }} className="font-display text-[clamp(3.6rem,8.2vw,8.4rem)] font-extrabold leading-[0.86] tracking-[-0.06em] text-foreground">
-            <span className="block">A TASTE</span>
-            <span className="block text-primary">OF HOME.</span>
+          <motion.h1 {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.18 }} className="font-display text-[clamp(2.75rem,4.8vw,4.5rem)] font-extrabold leading-[0.9] tracking-[-0.06em] text-foreground">
+            <span className="block">PORTLAND'S</span>
+            <span className="block text-primary">LONGEST-RUNNING</span>
+            <span className="block">SPECIALTY MUSUBI SHOP.</span>
           </motion.h1>
           <motion.p {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.3 }} className="mt-8 max-w-[530px] text-[17px] leading-[1.7] text-muted-foreground sm:text-[19px]">
             Specialty musubi, scratch-made butter mochi, and made-to-order taiyaki watched over by a mischievous Tengu. Food made to take somewhere.
