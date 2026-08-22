@@ -18,10 +18,15 @@ export const config = {
   },
 };
 
+const expressHandler = app as unknown as (
+  req: IncomingMessage,
+  res: ServerResponse,
+) => void;
+
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
     await initializeDatabase();
-    app(req, res);
+    expressHandler(req, res);
   } catch (error) {
     console.error("Unable to initialize ordering database", error);
     res.statusCode = 503;
