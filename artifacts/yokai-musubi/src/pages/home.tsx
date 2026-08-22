@@ -145,6 +145,9 @@ function HeroSection() {
             <span className="block text-primary">LONGEST-RUNNING</span>
             <span className="block">SPECIALTY MUSUBI SHOP.</span>
           </motion.h1>
+          <motion.p {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.26 }} className="mt-5 font-serif text-[15px] font-semibold italic leading-relaxed text-foreground/80 sm:text-base">
+            A taste of home.
+          </motion.p>
           <motion.p {...fadeUp} transition={{ ...fadeUp.transition, delay: 0.3 }} className="mt-8 max-w-[530px] text-[17px] leading-[1.7] text-muted-foreground sm:text-[19px]">
             Specialty musubi, scratch-made butter mochi, and made-to-order taiyaki watched over by a mischievous Tengu. Food made to take somewhere.
           </motion.p>
