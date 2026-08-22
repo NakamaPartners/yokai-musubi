@@ -8,6 +8,6 @@
 
 export interface Customer {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
 }

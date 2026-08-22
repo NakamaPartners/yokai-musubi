@@ -361,7 +361,7 @@ components:
               optionId: { type: string }
     Customer:
       type: object
-      required: [name, email, phone]
+      required: [name, phone]
       properties:
         name: { type: string }
         email: { type: string, format: email }

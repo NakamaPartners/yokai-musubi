@@ -34,7 +34,6 @@ async function stripeRequest<T>(path: string, body: URLSearchParams) {
 
 export async function createCheckoutSession(input: {
   sessionId: string;
-  customerEmail: string;
   successUrl: string;
   cancelUrl: string;
   lineItems: Array<{ name: string; description: string; unitAmount: number; quantity: number }>;
@@ -42,7 +41,6 @@ export async function createCheckoutSession(input: {
 }) {
   const body = new URLSearchParams({
     mode: "payment",
-    customer_email: input.customerEmail,
     success_url: input.successUrl,
     cancel_url: input.cancelUrl,
     "metadata[checkout_session_id]": input.sessionId,

@@ -108,7 +108,7 @@ export interface CheckoutItem {
 
 export interface Customer {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
 }
 

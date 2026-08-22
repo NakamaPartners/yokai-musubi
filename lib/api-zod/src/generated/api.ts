@@ -96,7 +96,7 @@ export const CreateCheckoutSessionBody = zod.object({
 })).min(1),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }),
   "fulfillment": zod.object({
@@ -149,7 +149,7 @@ export const GetCheckoutSessionResponse = zod.object({
 }).nullish(),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }).optional(),
   "fulfillment": zod.object({
@@ -183,7 +183,7 @@ export const GetOrderResponse = zod.object({
   "orderNumber": zod.string(),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }),
   "fulfillment": zod.object({
@@ -302,7 +302,7 @@ export const GetStaffOrdersResponse = zod.object({
   "orderNumber": zod.string(),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }),
   "fulfillment": zod.object({
@@ -343,7 +343,7 @@ export const GetStaffOrderResponse = zod.object({
   "orderNumber": zod.string(),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }),
   "fulfillment": zod.object({
@@ -386,7 +386,7 @@ export const UpdateStaffOrderResponse = zod.object({
   "orderNumber": zod.string(),
   "customer": zod.object({
   "name": zod.string(),
-  "email": zod.email(),
+  "email": zod.email().optional(),
   "phone": zod.string()
 }),
   "fulfillment": zod.object({

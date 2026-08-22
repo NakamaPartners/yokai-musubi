@@ -116,13 +116,13 @@ function ItemSheet({ item, onClose, onAdd }: { item: MenuItem; onClose: () => vo
   </div>;
 }
 
-type CheckoutForm = { name: string; email: string; phone: string; fulfillment: "pickup" | "delivery"; scheduledFor: string; address: string; city: string; state: string; zip: string; notes: string };
+type CheckoutForm = { name: string; phone: string; fulfillment: "pickup" | "delivery"; scheduledFor: string; address: string; city: string; state: string; zip: string; notes: string };
 
 export function CheckoutPage() {
   const cart = useCart();
   const menu = useGetMenu();
   const checkout = useCreateCheckoutSession();
-  const form = useForm<CheckoutForm>({ defaultValues: { name: "", email: "", phone: "", fulfillment: "pickup", scheduledFor: "", address: "", city: "Portland", state: "OR", zip: "", notes: "" } });
+  const form = useForm<CheckoutForm>({ defaultValues: { name: "", phone: "", fulfillment: "pickup", scheduledFor: "", address: "", city: "Portland", state: "OR", zip: "", notes: "" } });
   const fulfillment = form.watch("fulfillment");
   const settings = menu.data?.fulfillment;
   const deliveryFee = fulfillment === "delivery" ? settings?.deliveryFeeCents ?? 0 : 0;
@@ -132,7 +132,7 @@ export function CheckoutPage() {
     if (!cart.items.length) return;
     const input: CheckoutInput = {
       items: cart.items.map((item) => ({ itemId: item.itemId, quantity: item.quantity, modifiers: item.modifiers.map((modifier) => ({ groupId: modifier.groupId, optionId: modifier.optionId })) })),
-      customer: { name: values.name, email: values.email, phone: values.phone },
+      customer: { name: values.name, phone: values.phone },
       fulfillment: { type: values.fulfillment, scheduledFor: values.scheduledFor ? new Date(values.scheduledFor).toISOString() : null, address: values.fulfillment === "delivery" ? values.address : null, city: values.fulfillment === "delivery" ? values.city : null, state: values.fulfillment === "delivery" ? values.state : null, zip: values.fulfillment === "delivery" ? values.zip : null },
       notes: values.notes || null,
     };
@@ -147,7 +147,7 @@ export function CheckoutPage() {
   if (menu.isLoading) return <OrderLoading />;
   if (!cart.items.length) return <div className="min-h-screen bg-background"><OrderHeader cartCount={0} /><main className="mx-auto max-w-xl px-5 py-24 text-center"><ShoppingBag className="mx-auto h-10 w-10 text-primary" /><h1 className="mt-5 font-display text-4xl font-bold">Your cart is empty.</h1><p className="mt-3 text-muted-foreground">Start at the counter and pick something for the road.</p><Link href="/order" className="button button-primary mt-7 px-5 py-3" data-testid="link-return-menu">Browse the menu <ArrowRight className="h-4 w-4" /></Link></main></div>;
   return <div className="min-h-screen bg-background"><OrderHeader cartCount={cart.count} /><main className="mx-auto max-w-[1180px] px-5 py-10 sm:px-8"><Link href="/order" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.14em] text-primary" data-testid="link-back-menu"><ArrowLeft className="h-4 w-4" /> Back to menu</Link><div className="mt-7 grid gap-10 lg:grid-cols-[1fr_380px]"><div><p className="font-japanese text-sm tracking-[.2em] text-primary">お会計</p><h1 className="mt-2 font-display text-5xl font-extrabold tracking-[-.06em]">CHECKOUT.</h1>
-  <Form {...form}><form onSubmit={form.handleSubmit(submit)} className="mt-8 space-y-8"><section className="checkout-panel"><h2 className="font-display text-2xl font-bold">Your details</h2><div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Name"><Input {...form.register("name", { required: true })} data-testid="input-customer-name" /></Field><Field label="Phone"><Input {...form.register("phone", { required: true })} data-testid="input-customer-phone" /></Field><Field label="Email" className="sm:col-span-2"><Input type="email" {...form.register("email", { required: true })} data-testid="input-customer-email" /></Field></div></section>
+  <Form {...form}><form onSubmit={form.handleSubmit(submit)} className="mt-8 space-y-8"><section className="checkout-panel"><h2 className="font-display text-2xl font-bold">Your details</h2><div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Name"><Input {...form.register("name", { required: true })} data-testid="input-customer-name" /></Field><Field label="Phone"><Input {...form.register("phone", { required: true })} data-testid="input-customer-phone" /></Field></div></section>
   <section className="checkout-panel"><h2 className="font-display text-2xl font-bold">Receive your order</h2><div className="mt-5 grid gap-3 sm:grid-cols-2"><label className={`fulfillment-choice ${fulfillment === "pickup" ? "fulfillment-choice-selected" : ""}`}><input className="sr-only" type="radio" value="pickup" {...form.register("fulfillment")} data-testid="input-fulfillment-pickup" /><ShoppingBag className="h-5 w-5" /><span><strong>Pickup</strong><small>At our West Burnside counter</small></span></label><label className={`fulfillment-choice ${fulfillment === "delivery" ? "fulfillment-choice-selected" : ""}`}><input className="sr-only" type="radio" value="delivery" {...form.register("fulfillment")} disabled={!settings?.deliveryEnabled} data-testid="input-fulfillment-delivery" /><Truck className="h-5 w-5" /><span><strong>Local delivery</strong><small>{settings?.deliveryEnabled ? "Within confirmed delivery zones" : "Not configured yet"}</small></span></label></div>
   <div className="mt-5"><Field label="Pickup or delivery time (optional)"><Input type="datetime-local" {...form.register("scheduledFor")} data-testid="input-scheduled-time" /></Field></div>
   {fulfillment === "delivery" && <div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Street address" className="sm:col-span-2"><Input {...form.register("address", { required: true })} data-testid="input-address" /></Field><Field label="City"><Input {...form.register("city", { required: true })} data-testid="input-city" /></Field><Field label="ZIP code"><Input {...form.register("zip", { required: true })} data-testid="input-zip" /></Field></div>}</section>
@@ -176,7 +176,7 @@ export function ConfirmationPage() {
   });
   const sessionId = storedSession?.checkoutSessionId ?? "";
   const query = useGetCheckoutSession(sessionId, { query: { enabled: Boolean(sessionId), queryKey: getGetCheckoutSessionQueryKey(sessionId), refetchInterval: 2500 }, request: { headers: storedSession ? { "x-confirmation-token": storedSession.confirmationToken } : undefined } });
-  if (!storedSession) return <OrderUnavailable message="For privacy, reopen this confirmation in the same browser session used for checkout. Stripe’s payment receipt remains available in your email." />;
+  if (!storedSession) return <OrderUnavailable message="For privacy, reopen this confirmation in the same browser session used for checkout. Keep any payment receipt shown by Stripe for your records." />;
   if (query.isLoading) return <OrderLoading />;
   if (query.isError || !query.data) return <OrderUnavailable message="We couldn’t verify that payment session. If Stripe showed a receipt, please call the shop with it." />;
   const paid = query.data.status === "paid";

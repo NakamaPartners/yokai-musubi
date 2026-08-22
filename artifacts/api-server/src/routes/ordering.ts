@@ -25,7 +25,6 @@ const checkoutSchema = z.object({
   })).min(1).max(50),
   customer: z.object({
     name: z.string().trim().min(1).max(120),
-    email: z.string().email().max(254),
     phone: z.string().trim().min(7).max(32),
   }),
   fulfillment: z.object({
@@ -190,7 +189,6 @@ router.post("/checkout/sessions", async (req, res) => {
     const baseUrl = process.env.PUBLIC_APP_URL ?? `${req.protocol}://${req.get("host")}`;
     const stripeSession = await createCheckoutSession({
       sessionId: checkoutId,
-      customerEmail: data.customer.email,
       successUrl: `${baseUrl}/order/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: `${baseUrl}/order/checkout`,
       totalCents,
