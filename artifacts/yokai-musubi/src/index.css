@@ -273,9 +273,14 @@
     width: 100%;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .floating-cart {
     display: none;
+  }
+}
+@media (max-width: 1279px) {
+  .order-summary {
+    position: static;
   }
 }
 

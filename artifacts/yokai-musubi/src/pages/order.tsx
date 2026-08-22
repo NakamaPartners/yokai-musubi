@@ -58,13 +58,13 @@ export default function OrderPage() {
           </div>
         </div>
         {menu.data.draft && <div className="draft-callout mt-8" data-testid="status-draft-menu"><AlertCircle className="h-5 w-5 shrink-0" /><p><strong>Menu preview:</strong> item names, availability, prices, delivery rules, and hours are draft configuration until the shop confirms them. Your cart is never submitted while online ordering is off.</p></div>}
-        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="mt-12 grid items-start gap-10 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div className="min-w-0 space-y-14">
             {menu.data.categories.map((category) => {
               const items = menu.data!.items.filter((item) => item.categoryId === category.id);
               return items.length ? <section key={category.id} aria-labelledby={`category-${category.id}`}>
                 <div className="mb-6 flex items-end justify-between border-b border-border pb-4"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">The counter</p><h2 id={`category-${category.id}`} className="mt-1 font-display text-3xl font-bold">{category.name}</h2></div><p className="hidden max-w-sm text-right text-sm text-muted-foreground sm:block">{category.description}</p></div>
-                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">{items.map((item) => <MenuCard key={item.id} item={item} onCustomize={() => setSelected(item)} />)}</div>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map((item) => <MenuCard key={item.id} item={item} onCustomize={() => setSelected(item)} />)}</div>
               </section> : null;
             })}
             <div ref={menuBottomRef} className="h-px" aria-hidden="true" />
@@ -97,11 +97,11 @@ function FloatingCart({ cart, hidden }: { cart: CartState; hidden: boolean }) {
 }
 
 function MenuCard({ item, onCustomize }: { item: MenuItem; onCustomize: () => void }) {
-  return <article className={`menu-card ${!item.available ? "menu-card-unavailable" : ""}`} data-testid={`card-menu-${item.id}`}>
-    {item.imageUrl && <img src={item.imageUrl} alt={item.name} className="h-48 w-full object-cover" />}
-    <div className="p-5"><div className="flex items-start justify-between gap-4"><div><p className="font-japanese text-xs tracking-[.14em] text-primary">{item.japaneseName}</p><h3 className="mt-1 font-display text-2xl font-bold">{item.name}</h3></div><strong className="whitespace-nowrap text-lg">{money(item.priceCents)}</strong></div><p className="mt-3 min-h-12 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+  return <article className={`menu-card flex h-full flex-col ${!item.available ? "menu-card-unavailable" : ""}`} data-testid={`card-menu-${item.id}`}>
+    {item.imageUrl && <img src={item.imageUrl} alt={item.name} className="h-48 w-full shrink-0 object-cover" />}
+    <div className="flex flex-1 flex-col p-5"><div className="flex items-start justify-between gap-4"><div><p className="font-japanese text-xs tracking-[.14em] text-primary">{item.japaneseName}</p><h3 className="mt-1 font-display text-2xl font-bold">{item.name}</h3></div><strong className="whitespace-nowrap text-lg">{money(item.priceCents)}</strong></div><p className="mt-3 min-h-12 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
     {item.modifiers.length > 0 && <p className="mt-3 text-[10px] font-bold uppercase tracking-[.16em] text-primary">Options available</p>}
-    <Button type="button" onClick={onCustomize} disabled={!item.available} className="mt-5 w-full" data-testid={`button-add-${item.id}`}>{item.available ? item.modifiers.length ? "Choose options" : "Add to cart" : "Sold out"}</Button></div>
+    <Button type="button" onClick={onCustomize} disabled={!item.available} className="mt-auto w-full" data-testid={`button-add-${item.id}`}>{item.available ? item.modifiers.length ? "Choose options" : "Add to cart" : "Sold out"}</Button></div>
   </article>;
 }
 
