@@ -438,7 +438,7 @@ export default function OrderPage() {
 
               <div className="mt-7 flex gap-3 border border-border bg-secondary/50 p-4 text-sm leading-relaxed text-muted-foreground">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <p>Payment is not connected yet. Nothing has been charged or submitted; delivery (if selected), tax, and final payment will be shown clearly before any future confirmation.</p>
+                <p>Payment is not connected yet.</p>
               </div>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
