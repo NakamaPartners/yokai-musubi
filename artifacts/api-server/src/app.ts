@@ -1,4 +1,4 @@
-import express, { type Express } from "express";
+import express from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
@@ -6,7 +6,7 @@ import { logger } from "./lib/logger";
 import { handleStripeWebhook } from "./routes/ordering";
 import { InvalidWebhookError } from "./lib/stripe";
 
-const app: Express = express();
+const app = express();
 app.set("trust proxy", 1);
 
 app.use(
