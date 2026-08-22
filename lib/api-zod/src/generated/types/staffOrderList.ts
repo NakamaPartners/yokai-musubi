@@ -5,7 +5,8 @@
  * Yokai Musubi direct ordering API
  * OpenAPI spec version: 0.1.0
  */
+import type { StaffOrder } from './staffOrder';
 
-export interface HealthStatus {
-  status: string;
+export interface StaffOrderList {
+  orders: StaffOrder[];
 }

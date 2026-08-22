@@ -5,7 +5,8 @@
  * Yokai Musubi direct ordering API
  * OpenAPI spec version: 0.1.0
  */
+import type { ErrorResponseError } from './errorResponseError';
 
-export interface HealthStatus {
-  status: string;
+export interface ErrorResponse {
+  error: ErrorResponseError;
 }
