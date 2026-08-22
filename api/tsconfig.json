@@ -4,7 +4,11 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": [
+      "../artifacts/api-server/node_modules/@types",
+      "../node_modules/@types"
+    ]
   },
   "include": ["**/*.ts", "../artifacts/api-server/src/**/*.ts"]
 }
